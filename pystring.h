@@ -11,8 +11,11 @@ private:
 
 public:
     // Constructors
+    PyString() : std::string() {};
     PyString(const PyString& s) : std::string(s) {};
+    PyString(const PyString* s) : std::string(*s) {};
     PyString(const std::string& s) : std::string(s) {};
+    PyString(const std::string* s) : std::string(*s) {};
     PyString(char* c) : std::string(c) {};
     PyString(char c) : std::string(_char_to_charptr(c)) {};
 

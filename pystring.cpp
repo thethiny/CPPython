@@ -1,11 +1,9 @@
 #include "pystring.h"
 
-using namespace CPPython;
-
-std::vector<string> string::split(string ToFind, int MaxSplit)
+std::vector<PyString> PyString::split(PyString ToFind, int MaxSplit)
 {
-	std::vector<string> found;
-	string ToSplit = *this;
+	std::vector<PyString> found;
+	PyString ToSplit = *this;
 	for (long long i = 0; i < ToSplit.length(); i++)
 	{
 		if (MaxSplit >= 0 && found.size() >= MaxSplit)
@@ -26,10 +24,10 @@ std::vector<string> string::split(string ToFind, int MaxSplit)
 	return found;
 }
 
-std::vector<string> string::rsplit(string ToFind, int MaxSplit)
+std::vector<PyString> PyString::rsplit(PyString ToFind, int MaxSplit)
 {
-	std::vector<string> found;
-	string ToSplit = *this;
+	std::vector<PyString> found;
+	PyString ToSplit = *this;
 	for (long long i = ToSplit.length() - 1; i >= 0; i--)
 	{
 		if (MaxSplit >= 0 && found.size() >= MaxSplit)
@@ -49,9 +47,9 @@ std::vector<string> string::rsplit(string ToFind, int MaxSplit)
 	return found;
 }
 
-string string::lower()
+PyString PyString::lower()
 {
-	string new_string("");
+	PyString new_string("");
 	for (int i = 0; i < this->length(); i++)
 	{
 		new_string += std::tolower((*this)[i]);
@@ -59,9 +57,9 @@ string string::lower()
 	return new_string;
 }
 
-string string::upper()
+PyString PyString::upper()
 {
-	string new_string("");
+	PyString new_string("");
 	for (int i = 0; i < this->length(); i++)
 	{
 		new_string += std::toupper((*this)[i]);
@@ -69,9 +67,9 @@ string string::upper()
 	return new_string;
 }
 
-string string::join(string* str, uint64_t size)
+PyString PyString::join(PyString* str, uint64_t size)
 {
-	string x = "";
+	PyString x = "";
 	for (uint64_t i = 0; i < size; i++)
 	{
 		x += str [i];
@@ -83,9 +81,9 @@ string string::join(string* str, uint64_t size)
 	return x;
 }
 
-string string::strip(string ToStrip)
+PyString PyString::strip(PyString ToStrip)
 {
-	string x = *this;
+	PyString x = *this;
 	uint64_t pos = 0, posend = x.length();
 	for (auto i = 0; i < x.length(); i++)
 	{
@@ -111,13 +109,13 @@ string string::strip(string ToStrip)
 	return x.substr(pos, posend-pos);
 }
 
-bool string::startswith(string Start)
+bool PyString::startswith(PyString Start)
 {
 	return !strncmp(*this, Start, Start.length());
 }
 
-bool string::endswith(string End)
+bool PyString::endswith(PyString End)
 {
-	string NewStr = this->substr(this->length() - End.length());
+	PyString NewStr = this->substr(this->length() - End.length());
 	return !strncmp(NewStr, End, End.length());
 }

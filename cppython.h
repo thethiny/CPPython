@@ -1,6 +1,7 @@
 #pragma once
+#include "pystring.h"
 
 namespace CPPython
 {
-	extern class string;
+	typedef PyString string;
 }

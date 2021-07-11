@@ -4,16 +4,18 @@ std::vector<PyString> PyString::split(PyString ToFind, int MaxSplit)
 {
 	std::vector<PyString> found;
 	PyString ToSplit = *this;
-	for (long long i = 0; i < ToSplit.length(); i++)
+	for (size_t i = 0; i < ToSplit.length(); i++)
 	{
 		if (MaxSplit >= 0 && found.size() >= MaxSplit)
 			break;
-		if (!strcmp(ToSplit.substr(i, ToFind.length()).c_str(), ToFind.c_str()))
-		{
-			found.push_back(ToSplit.substr(0, i));
-			ToSplit = ToSplit.substr(i + 1);
-			i = -1;
-		}
+		for (int j = 0; j < ToFind.length(); j++)
+			if (ToSplit[i] == ToFind[j])
+			{
+				found.push_back(ToSplit.substr(0, i));
+				ToSplit = ToSplit.substr(i + 1);
+				i--;
+				break;
+			}
 	}
 
 	if (!this->empty())
@@ -28,16 +30,19 @@ std::vector<PyString> PyString::rsplit(PyString ToFind, int MaxSplit)
 {
 	std::vector<PyString> found;
 	PyString ToSplit = *this;
-	for (long long i = ToSplit.length() - 1; i >= 0; i--)
+	for (int64_t i = ToSplit.length() - 1; i >= 0; i--)
 	{
 		if (MaxSplit >= 0 && found.size() >= MaxSplit)
 			break;
-		if (!strcmp(ToSplit.substr(i, ToFind.length()).c_str(), ToFind.c_str()))
-		{
-			found.insert(found.begin(), ToSplit.substr(i + 1));
-			ToSplit = ToSplit.substr(0, i);
-			i = ToSplit.length();
-		}
+
+		for (int j = 0; j < ToFind.length(); j++)
+			if (ToSplit[i] == ToFind[j])
+			{
+				found.insert(found.begin(), ToSplit.substr(i + 1));
+				ToSplit = ToSplit.substr(0, i);
+				i = ToSplit.length();
+				break;
+			}
 	}
 	if (!ToSplit.empty())
 	{

@@ -116,11 +116,40 @@ PyString PyString::strip(PyString ToStrip)
 
 bool PyString::startswith(PyString Start)
 {
-	return !strncmp(*this, Start, Start.length());
+	return strncmp(*this, Start, Start.length()) == 0;
 }
 
 bool PyString::endswith(PyString End)
 {
+	if (End.length() > this->length())
+		return false;
 	PyString NewStr = this->substr(this->length() - End.length());
-	return !strncmp(NewStr, End, End.length());
+	return strncmp(NewStr, End, End.length()) == 0;
+}
+
+PyString PyString::replace(PyString Replacement, PyString ReplaceWith)
+{
+	if (this->length() < Replacement.length())
+		return *this;
+
+	if (this->length() == Replacement.length())
+	{
+		return strcmp(this->c_str(), Replacement.c_str()) ? (*this) : ReplaceWith;
+	}
+
+	size_t i = 0;
+	PyString NewStr = *this;
+
+	while (i < NewStr.length())
+	{
+		PyString s1 = NewStr.substr(i, Replacement.length());
+		if (strncmp(s1.c_str(), Replacement.c_str(), Replacement.length()) == 0)
+		{
+			NewStr = NewStr.substr(0, i) + ReplaceWith + NewStr.substr(i + Replacement.length(), NewStr.length() - i - Replacement.length());
+			i += ReplaceWith.length();
+			continue;
+		}
+		i++;
+	}
+	return NewStr;
 }

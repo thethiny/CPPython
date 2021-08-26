@@ -100,13 +100,13 @@ PyString PyString::strip(PyString ToStrip)
 			{
 				in = true;
 			}
-			if (x[x.length() - i - 1] == ToStrip[j])
+			if (x[-1] == ToStrip[j])
 			{
 				in2 = true;
 			}
 		}
 		if (in)
-			pos = i;
+			pos = i+1;
 		if (in2)
 			posend = x.length() - i - 1;
 	}

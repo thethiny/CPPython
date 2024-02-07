@@ -72,12 +72,12 @@ PyString PyString::upper()
 	return new_string;
 }
 
-PyString PyString::join(PyString* str, uint64_t size)
+PyString PyString::join(PyString *str, uint64_t size)
 {
 	PyString x = "";
 	for (uint64_t i = 0; i < size; i++)
 	{
-		x += str [i];
+		x += str[i];
 		if (i == size - 1)
 		{
 			x += *this;
@@ -93,25 +93,37 @@ PyString PyString::strip(PyString ToStrip)
 	for (auto i = 0; i < x.length(); i++)
 	{
 		bool in = false;
-		bool in2 = false;
 		for (auto j = 0; j < ToStrip.length(); j++)
 		{
 			if (x[i] == ToStrip[j])
 			{
 				in = true;
 			}
-			if (x[-1] == ToStrip[j])
+		}
+		if (!in)
+		{
+			pos = i;
+			break;
+		}
+	}
+	for (auto i = 0; i < x.length(); i++)
+	{
+		bool in = false;
+		for (auto j = 0; j < ToStrip.length(); j++)
+		{
+			if (x[x.length() - i - 1] == ToStrip[j])
 			{
-				in2 = true;
+				in = true;
 			}
 		}
-		if (in)
-			pos = i+1;
-		if (in2)
-			posend = x.length() - i - 1;
+		if (!in)
+		{
+			posend = x.length() - i;
+			break;
+		}
 	}
 
-	return x.substr(pos, posend-pos);
+	return x.substr(pos, posend - pos);
 }
 
 bool PyString::startswith(PyString Start)

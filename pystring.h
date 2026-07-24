@@ -40,8 +40,8 @@ public:
     PyString(const char *c) : std::string(c){};
     PyString(char *c) : std::string(c){};
     PyString(char c) : std::string(_char_to_charptr(c)){};
-    PyString(const wchar_t* wc) {if (wc) {std::wstring ws(wc);this->assign(ws.begin(), ws.end());}}
-    PyString(wchar_t* wc) {if (wc){std::wstring ws(wc);this->assign(ws.begin(), ws.end());}}
+    PyString(const wchar_t* wc) {if (wc) {size_t len = wcslen(wc); this->reserve(len); for (size_t i = 0; i < len; i++) this->push_back((char)wc[i]);}}
+    PyString(wchar_t* wc) {if (wc) {size_t len = wcslen(wc); this->reserve(len); for (size_t i = 0; i < len; i++) this->push_back((char)wc[i]);}}
 
     // Python functions
     std::vector<PyString> split(PyString ToFind = " ", int MaxSplit = -1); // Need a split function that is "OR" instead of "AND".
